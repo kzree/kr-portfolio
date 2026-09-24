@@ -1,17 +1,34 @@
 ---
-import '../styles/global.css';
+import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body class="bg-canvas font-body text-ink antialiased">
-		<h1>Astro</h1>
-	</body>
-</html>
+<SiteLayout
+  title="Kristel — Marketing Specialist"
+  description="Marketing, copywriting, design and experiences from idea to final execution."
+>
+  <section class="mx-auto flex min-h-[min(42rem,75vh)] max-w-[var(--layout-max)] items-center px-gutter py-section">
+    <div class="max-w-[50rem]">
+      <p class="mb-5 text-eyebrow font-semibold tracking-eyebrow text-ink-soft uppercase">Marketing specialist</p>
+      <h1 class="max-w-[16ch] font-display text-hero font-bold tracking-display text-ink uppercase">
+        I turn ideas into content, campaigns &amp; experiences.
+      </h1>
+      <p class="mt-7 max-w-[33rem] text-lead text-ink-soft">
+        Marketing, copywriting, design, social media and events — from the first idea to the final execution.
+      </p>
+    </div>
+  </section>
+
+  <section id="about" class="border-t border-line/70 px-gutter py-section scroll-mt-8">
+    <div class="mx-auto max-w-[var(--layout-max)]">
+      <p class="mb-4 text-eyebrow font-semibold tracking-eyebrow text-ink-soft uppercase">About me</p>
+      <h2 class="max-w-[20ch] font-display text-section font-bold tracking-heading">A marketing specialist with a soft spot for good ideas.</h2>
+    </div>
+  </section>
+
+  <section id="contact" class="border-t border-line/70 px-gutter py-section scroll-mt-8">
+    <div class="mx-auto max-w-[var(--layout-max)]">
+      <p class="mb-4 text-eyebrow font-semibold tracking-eyebrow text-ink-soft uppercase">Contact</p>
+      <h2 class="font-display text-section font-bold tracking-heading">Have an idea? Let’s talk.</h2>
+    </div>
+  </section>
+</SiteLayout>

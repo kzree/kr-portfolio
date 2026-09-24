@@ -1,0 +1,29 @@
+---
+import type { SiteSettings } from '../lib/site';
+
+interface Props {
+  site: SiteSettings;
+}
+
+const { site } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line/70">
+  <div class="mx-auto grid max-w-[var(--layout-max)] gap-8 px-gutter py-8 sm:grid-cols-[1fr_auto] sm:items-end lg:grid-cols-[1fr_auto_1fr]">
+    <a href="/" class="w-fit font-display text-[0.75rem] font-bold tracking-[0.2em] text-ink uppercase focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong" aria-label={`${site.brand} home`}>
+      {site.brand}
+    </a>
+
+    <nav aria-label="Footer navigation" class="flex flex-wrap items-center gap-x-5 gap-y-2 lg:justify-center">
+      {site.navigation.map((link) => (
+        <a href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noopener noreferrer' : undefined} class="text-small text-ink-soft transition-colors hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong">{link.label}</a>
+      ))}
+      {site.socialLinks.map((link) => (
+        <a href={link.href} target="_blank" rel="noopener noreferrer" class="text-small text-ink-soft transition-colors hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong">{link.label}</a>
+      ))}
+    </nav>
+
+    <p class="text-small text-ink-faint sm:text-right">{site.footerNote ?? `© ${year}`}</p>
+  </div>
+</footer>

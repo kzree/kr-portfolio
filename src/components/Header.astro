@@ -1,0 +1,61 @@
+---
+import type { SiteSettings } from '../lib/site';
+
+interface Props {
+  site: SiteSettings;
+}
+
+const { site } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<header class="border-b border-line/70">
+  <div class="mx-auto flex h-[var(--header-height)] max-w-[var(--layout-max)] items-center justify-between gap-6 px-gutter">
+    <a href="/" class="shrink-0 font-display text-[0.75rem] font-bold tracking-[0.2em] text-ink uppercase focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong" aria-label={`${site.brand} home`}>
+      {site.brand}
+    </a>
+
+    <div class="hidden items-center gap-9 md:flex">
+      <nav aria-label="Primary navigation" class="flex items-center gap-7">
+        {site.navigation.map((link) => (
+          <a
+            href={link.href}
+            aria-current={link.href === currentPath ? 'page' : undefined}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+            class="text-small text-ink-soft transition-colors duration-200 hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong aria-[current=page]:font-semibold aria-[current=page]:text-ink"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+      {site.cvUrl && (
+        <a href={site.cvUrl} class="inline-flex min-h-9 items-center gap-2 rounded-pill bg-ink px-5 text-small font-medium text-on-dark transition-colors duration-200 hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong">
+          CV <span aria-hidden="true">↗</span>
+        </a>
+      )}
+    </div>
+
+    <details class="group relative md:hidden">
+      <summary class="flex min-h-10 cursor-pointer list-none items-center gap-2 rounded-pill border border-line px-4 text-small font-medium text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong [&::-webkit-details-marker]:hidden">
+        Menu <span aria-hidden="true" class="text-base leading-none group-open:rotate-45">+</span>
+      </summary>
+      <nav aria-label="Mobile navigation" class="absolute right-0 z-20 mt-3 flex min-w-44 flex-col gap-1 rounded-card border border-line bg-surface p-2 shadow-card">
+        {site.navigation.map((link) => (
+          <a
+            href={link.href}
+            aria-current={link.href === currentPath ? 'page' : undefined}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+            class="rounded-sm px-3 py-2 text-small text-ink hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-accent-strong"
+          >
+            {link.label}
+          </a>
+        ))}
+        {site.cvUrl && (
+          <a href={site.cvUrl} class="rounded-sm bg-ink px-3 py-2 text-small text-on-dark focus-visible:outline-2 focus-visible:outline-accent-strong">Download CV ↗</a>
+        )}
+      </nav>
+    </details>
+  </div>
+</header>
