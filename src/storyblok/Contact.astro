@@ -1,0 +1,29 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Button from '../components/Button.astro';
+import Container from '../components/Container.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { linkUrl } from './mappers';
+import type { Block, ContactFields } from './types';
+
+interface Props {
+  blok: Block<ContactFields>;
+}
+
+const { blok } = Astro.props;
+const linkedinUrl = linkUrl(blok.linkedin);
+---
+
+<section id="contact" {...storyblokEditable(blok)} class="border-t border-line/70 py-section scroll-mt-8">
+  <Container class="grid gap-8 md:grid-cols-[1fr_1fr] md:items-end">
+    <SectionHeading eyebrow={blok.eyebrow ?? 'Contact'} title={blok.heading} />
+    <div>
+      {blok.invitation && <p class="max-w-[32rem] text-body text-ink-soft">{blok.invitation}</p>}
+      <div class="mt-6 flex flex-wrap items-center gap-x-7 gap-y-4">
+        {blok.email && <Button href={`mailto:${blok.email}`}>{blok.message_label || 'Send me a message'} <span aria-hidden="true">↗</span></Button>}
+        {blok.email && <a href={`mailto:${blok.email}`} class="text-small text-ink-soft underline-offset-4 hover:underline">{blok.email}</a>}
+        {linkedinUrl && <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" class="text-small text-ink-soft underline-offset-4 hover:underline">LinkedIn ↗</a>}
+      </div>
+    </div>
+  </Container>
+</section>

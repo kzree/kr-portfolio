@@ -1,0 +1,54 @@
+---
+import { renderRichText, storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import Container from '../components/Container.astro';
+import MediaGrid from '../components/MediaGrid.astro';
+import ProjectMeta from '../components/ProjectMeta.astro';
+import ProjectPagination from '../components/ProjectPagination.astro';
+import type { ProjectLink } from '../lib/content';
+import { assetUrl } from './mappers';
+import type { Block, ProjectFields } from './types';
+
+interface Props {
+  blok: Block<ProjectFields>;
+  previous?: ProjectLink;
+  next?: ProjectLink;
+}
+
+const { blok, previous, next } = Astro.props;
+const heroImage = assetUrl(blok.hero_image);
+const aboutHtml = blok.about ? renderRichText(blok.about as Parameters<typeof renderRichText>[0]) : '';
+const goalHtml = blok.goal ? renderRichText(blok.goal as Parameters<typeof renderRichText>[0]) : '';
+const responsibilitiesHtml = blok.responsibilities ? renderRichText(blok.responsibilities as Parameters<typeof renderRichText>[0]) : '';
+---
+
+<article {...storyblokEditable(blok)}>
+  <Container>
+    <ProjectPagination position="top" previous={previous} next={next} />
+    <div class="grid gap-8 border-b border-line py-10 md:grid-cols-[1fr_auto] md:items-end">
+      <div>
+        <h1 class="font-display text-section font-bold tracking-heading">{blok.title}</h1>
+        {blok.summary && <p class="mt-4 max-w-[40rem] text-body text-ink-soft">{blok.summary}</p>}
+      </div>
+      <ProjectMeta year={blok.year} role={blok.role} client={blok.client} categories={blok.categories} />
+    </div>
+    {heroImage && <div class="my-8 aspect-[1.9] overflow-hidden rounded-card bg-surface-soft"><img src={heroImage} alt={blok.hero_image?.alt || blok.title} class="h-full w-full object-cover" fetchpriority="high" /></div>}
+
+    {(aboutHtml || goalHtml) && (
+      <div class="grid gap-8 border-b border-line py-10 md:grid-cols-2">
+        {aboutHtml && <section><h2 class="mb-3 font-display text-card font-bold tracking-heading">About the project</h2><div class="text-body text-ink-soft [&_p+p]:mt-4" set:html={aboutHtml} /></section>}
+        {goalHtml && <section class="rounded-card bg-surface-soft p-6"><h2 class="mb-3 font-display text-card font-bold tracking-heading">The goal</h2><div class="text-body text-ink-soft [&_p+p]:mt-4" set:html={goalHtml} /></section>}
+      </div>
+    )}
+
+    {(responsibilitiesHtml || (blok.results?.length ?? 0) > 0) && (
+      <div class="grid gap-8 border-b border-line py-10 md:grid-cols-2">
+        {responsibilitiesHtml && <section><h2 class="mb-3 font-display text-card font-bold tracking-heading">My role</h2><div class="text-body text-ink-soft [&_p+p]:mt-4 [&_ul]:list-disc [&_ul]:pl-5" set:html={responsibilitiesHtml} /></section>}
+        {(blok.results?.length ?? 0) > 0 && <section><h2 class="mb-6 font-display text-card font-bold tracking-heading">Results</h2><div class="grid grid-cols-2 gap-6 sm:grid-cols-3">{blok.results?.map((result) => <StoryblokComponent blok={result} />)}</div></section>}
+      </div>
+    )}
+
+    {(blok.gallery?.length ?? 0) > 0 && <section class="py-10"><h2 class="mb-5 font-display text-card font-bold tracking-heading">Visual materials</h2><MediaGrid>{blok.gallery?.map((item) => <StoryblokComponent blok={item} />)}</MediaGrid></section>}
+    <ProjectPagination previous={previous} next={next} />
+  </Container>
+</article>

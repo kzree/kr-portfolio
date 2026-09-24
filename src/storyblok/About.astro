@@ -1,0 +1,36 @@
+---
+import { renderRichText, storyblokEditable } from '@storyblok/astro';
+import { MapPin, GraduationCap, BriefcaseBusiness } from '@lucide/astro';
+import Button from '../components/Button.astro';
+import Container from '../components/Container.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { assetUrl } from './mappers';
+import type { AboutFields, Block } from './types';
+
+interface Props {
+  blok: Block<AboutFields>;
+}
+
+const { blok } = Astro.props;
+const portrait = assetUrl(blok.portrait);
+const cvUrl = assetUrl(blok.cv_file);
+const biography = blok.biography ? renderRichText(blok.biography as Parameters<typeof renderRichText>[0]) : '';
+---
+
+<section id="about" {...storyblokEditable(blok)} class="border-t border-line/70 py-section scroll-mt-8">
+  <Container class="grid gap-8 md:grid-cols-[1.1fr_0.65fr_0.8fr] md:items-start">
+    <div>
+      <SectionHeading eyebrow={blok.eyebrow ?? 'About me'} title={blok.heading} />
+      {biography && <div class="mt-5 max-w-[34rem] text-body text-ink-soft [&_p+p]:mt-4" set:html={biography} />}
+      {cvUrl && <div class="mt-7"><Button href={cvUrl} variant="accent" download>{blok.cv_label || 'Download CV'} <span aria-hidden="true">↓</span></Button></div>}
+    </div>
+    <div class="aspect-[0.8] overflow-hidden rounded-card bg-surface-soft">
+      {portrait && <img src={portrait} alt={blok.portrait?.alt || 'Portrait of Kristel'} loading="lazy" decoding="async" class="h-full w-full object-cover" />}
+    </div>
+    <dl class="space-y-5 text-small text-ink-soft">
+      {blok.location && <div class="flex gap-3"><MapPin size={18} stroke-width={1.6} class="shrink-0 text-ink" aria-hidden="true" /><div><dt class="sr-only">Location</dt><dd>{blok.location}</dd></div></div>}
+      {blok.education && <div class="flex gap-3"><GraduationCap size={18} stroke-width={1.6} class="shrink-0 text-ink" aria-hidden="true" /><div><dt class="sr-only">Education</dt><dd>{blok.education}</dd></div></div>}
+      {blok.experience && <div class="flex gap-3"><BriefcaseBusiness size={18} stroke-width={1.6} class="shrink-0 text-ink" aria-hidden="true" /><div><dt class="sr-only">Experience</dt><dd>{blok.experience}</dd></div></div>}
+    </dl>
+  </Container>
+</section>

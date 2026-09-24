@@ -1,0 +1,29 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { assetUrl } from './mappers';
+import type { Block, GalleryItemFields } from './types';
+
+interface Props {
+  blok: Block<GalleryItemFields>;
+}
+
+const { blok } = Astro.props;
+const image = assetUrl(blok.image);
+const video = assetUrl(blok.video);
+const poster = assetUrl(blok.poster);
+const captions = assetUrl(blok.captions_file);
+---
+
+<figure {...storyblokEditable(blok)} class:list={['min-w-0', blok.wide && 'col-span-2']}>
+  {(image || video) && <div class="aspect-[0.9] overflow-hidden rounded-card bg-surface-soft sm:aspect-[1.1]">
+    {video ? (
+      <video src={video} poster={poster} controls playsinline preload="none" aria-label={blok.caption || 'Project video'} class="h-full w-full object-cover">
+        {captions && <track kind="captions" src={captions} srclang="en" label="English" default />}
+        Your browser does not support video playback.
+      </video>
+    ) : (
+      <img src={image} alt={blok.image?.alt || blok.caption || 'Project visual'} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+    )}
+  </div>}
+  {blok.caption && <figcaption class="mt-2 text-small text-ink-soft">{blok.caption}</figcaption>}
+</figure>

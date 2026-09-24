@@ -1,0 +1,26 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Button from '../components/Button.astro';
+import Container from '../components/Container.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { isResolved, toProjectSummary } from './mappers';
+import type { Block, FeaturedWorkFields } from './types';
+
+interface Props {
+  blok: Block<FeaturedWorkFields>;
+}
+
+const { blok } = Astro.props;
+const projects = (blok.projects ?? []).filter(isResolved).map(toProjectSummary);
+---
+
+<section {...storyblokEditable(blok)} class="border-t border-line/70 py-section">
+  <Container>
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <SectionHeading eyebrow={blok.eyebrow ?? 'Selected work'} title={blok.heading} />
+      <Button href="/work" variant="text">{blok.link_label || 'View all work'} <span aria-hidden="true">→</span></Button>
+    </div>
+    {projects.length > 0 && <ProjectGrid projects={projects} columns={4} />}
+  </Container>
+</section>

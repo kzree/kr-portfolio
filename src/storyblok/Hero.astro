@@ -1,0 +1,32 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Button from '../components/Button.astro';
+import Container from '../components/Container.astro';
+import { assetUrl, linkUrl } from './mappers';
+import type { Block, HeroFields } from './types';
+
+interface Props {
+  blok: Block<HeroFields>;
+}
+
+const { blok } = Astro.props;
+const portrait = assetUrl(blok.portrait);
+const ctaHref = linkUrl(blok.cta_link);
+---
+
+<section {...storyblokEditable(blok)}>
+  <Container class="grid min-h-[min(43rem,78vh)] gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:items-center md:py-section">
+    <div>
+      {blok.eyebrow && <p class="mb-5 text-eyebrow font-semibold tracking-eyebrow text-ink-soft uppercase">{blok.eyebrow}</p>}
+      <h1 class="max-w-[16ch] font-display text-hero font-bold tracking-display text-ink uppercase">{blok.headline}</h1>
+      {blok.introduction && <p class="mt-7 max-w-[35rem] text-lead text-ink-soft">{blok.introduction}</p>}
+      {ctaHref && blok.cta_label && <div class="mt-8"><Button href={ctaHref}>{blok.cta_label} <span aria-hidden="true">↗</span></Button></div>}
+    </div>
+    <div class="relative mx-auto w-full max-w-[32rem]">
+      <div class="aspect-[0.88] overflow-hidden rounded-card bg-surface-soft">
+        {portrait && <img src={portrait} alt={blok.portrait?.alt || 'Portrait of Kristel'} class="h-full w-full object-cover" fetchpriority="high" />}
+      </div>
+      {blok.handwritten_note && <p class="absolute right-5 bottom-5 max-w-[10rem] -rotate-[8deg] font-display text-[clamp(1.3rem,2.4vw,2.2rem)] leading-tight italic text-on-dark [text-shadow:0_2px_12px_rgb(0_0_0/.7)]">{blok.handwritten_note}</p>}
+    </div>
+  </Container>
+</section>

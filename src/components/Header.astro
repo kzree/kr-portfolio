@@ -31,7 +31,7 @@ const currentPath = Astro.url.pathname;
       </nav>
       {site.cvUrl && (
         <a href={site.cvUrl} class="inline-flex min-h-9 items-center gap-2 rounded-pill bg-ink px-5 text-small font-medium text-on-dark transition-colors duration-200 hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong">
-          CV <span aria-hidden="true">↗</span>
+          {site.cvLabel || 'CV'} <span aria-hidden="true">↗</span>
         </a>
       )}
     </div>
@@ -53,7 +53,7 @@ const currentPath = Astro.url.pathname;
           </a>
         ))}
         {site.cvUrl && (
-          <a href={site.cvUrl} class="rounded-sm bg-ink px-3 py-2 text-small text-on-dark focus-visible:outline-2 focus-visible:outline-accent-strong">Download CV ↗</a>
+          <a href={site.cvUrl} class="rounded-sm bg-ink px-3 py-2 text-small text-on-dark focus-visible:outline-2 focus-visible:outline-accent-strong">{site.cvLabel || 'Download CV'} ↗</a>
         )}
       </nav>
     </details>

@@ -1,0 +1,15 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import type { Block, HomeFields } from './types';
+
+interface Props {
+  blok: Block<HomeFields>;
+}
+
+const { blok } = Astro.props;
+---
+
+<div {...storyblokEditable(blok)}>
+  {blok.body?.map((section) => <StoryblokComponent blok={section} />)}
+</div>

@@ -8,6 +8,8 @@ export interface SiteSettings {
   brand: string;
   navigation: SiteLink[];
   cvUrl?: string;
+  cvLabel?: string;
+  email?: string;
   socialLinks: SiteLink[];
   footerNote?: string;
 }

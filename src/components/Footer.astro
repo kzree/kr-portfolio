@@ -22,6 +22,7 @@ const year = new Date().getFullYear();
       {site.socialLinks.map((link) => (
         <a href={link.href} target="_blank" rel="noopener noreferrer" class="text-small text-ink-soft transition-colors hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong">{link.label}</a>
       ))}
+      {site.email && <a href={`mailto:${site.email}`} class="text-small text-ink-soft transition-colors hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong">Email</a>}
     </nav>
 
     <p class="text-small text-ink-faint sm:text-right">{site.footerNote ?? `© ${year}`}</p>

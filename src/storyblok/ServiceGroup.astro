@@ -1,0 +1,18 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import ServiceIcon from '../components/ServiceIcon.astro';
+import type { Block, ServiceGroupFields } from './types';
+
+interface Props {
+  blok: Block<ServiceGroupFields>;
+}
+
+const { blok } = Astro.props;
+const skills = (blok.skills ?? '').split('\n').map((skill) => skill.trim()).filter(Boolean);
+---
+
+<div {...storyblokEditable(blok)} class="border-l border-line pl-4 first:border-l-0 first:pl-0 lg:min-h-48">
+  <ServiceIcon name={blok.icon} class="mb-5 text-ink" />
+  <h3 class="text-eyebrow font-bold tracking-eyebrow text-ink uppercase">{blok.title}</h3>
+  {skills.length > 0 && <ul class="mt-3 space-y-0.5 text-small text-ink-soft">{skills.map((skill) => <li>{skill}</li>)}</ul>}
+</div>

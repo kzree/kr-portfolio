@@ -1,0 +1,18 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import WritingCard from '../components/WritingCard.astro';
+import { assetUrl, linkUrl } from './mappers';
+import type { Block, WritingEntryFields } from './types';
+
+interface Props {
+  blok: Block<WritingEntryFields>;
+}
+
+const { blok } = Astro.props;
+const url = linkUrl(blok.external_url);
+const thumbnail = assetUrl(blok.thumbnail);
+---
+
+<div {...storyblokEditable(blok)}>
+  {url && <WritingCard writing={{ title: blok.title, type: blok.type || 'Writing', excerpt: blok.excerpt, url, image: thumbnail ? { src: thumbnail, alt: blok.thumbnail?.alt || blok.title } : undefined }} />}
+</div>

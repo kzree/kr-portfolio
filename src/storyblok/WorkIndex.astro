@@ -1,0 +1,32 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import CategoryFilter from '../components/CategoryFilter.astro';
+import Container from '../components/Container.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import type { ProjectSummary } from '../lib/content';
+import type { Block, WorkIndexFields } from './types';
+
+interface Props {
+  blok: Block<WorkIndexFields>;
+  projects?: ProjectSummary[];
+}
+
+const { blok, projects = [] } = Astro.props;
+const categories = [...new Set(projects.flatMap((project) => project.categories))];
+---
+
+<section {...storyblokEditable(blok)}>
+  <Container class="py-section">
+    <div class="grid gap-8 md:grid-cols-[1fr_minmax(15rem,0.7fr)] md:items-end">
+      <SectionHeading as="h1" eyebrow={blok.eyebrow ?? 'Portfolio'} title={blok.heading} />
+      {blok.introduction && <p class="max-w-[29rem] text-body text-ink-soft">{blok.introduction}</p>}
+    </div>
+    {projects.length > 0 && (
+      <>
+        <div class="mt-12"><CategoryFilter categories={categories} targetId="work-grid" /></div>
+        <div class="mt-7"><ProjectGrid id="work-grid" projects={projects} /></div>
+      </>
+    )}
+  </Container>
+</section>

@@ -1,0 +1,15 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import MetricDisplay from '../components/MetricDisplay.astro';
+import type { Block, ResultMetricFields } from './types';
+
+interface Props {
+  blok: Block<ResultMetricFields>;
+}
+
+const { blok } = Astro.props;
+---
+
+<div {...storyblokEditable(blok)}>
+  <MetricDisplay metric={{ value: blok.value, label: blok.label, icon: blok.icon }} />
+</div>

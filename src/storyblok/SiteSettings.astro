@@ -1,0 +1,15 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import type { Block, SiteSettingsFields } from './types';
+
+interface Props {
+  blok: Block<SiteSettingsFields>;
+}
+
+const { blok } = Astro.props;
+---
+
+<section {...storyblokEditable(blok)} class="px-gutter py-section">
+  <h1 class="font-display text-section font-bold tracking-heading">Site settings</h1>
+  <p class="mt-4 text-body text-ink-soft">Global navigation and contact details for {blok.brand || 'Kristel'}.</p>
+</section>

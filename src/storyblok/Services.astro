@@ -1,0 +1,22 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import Container from '../components/Container.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import type { Block, ServicesFields } from './types';
+
+interface Props {
+  blok: Block<ServicesFields>;
+}
+
+const { blok } = Astro.props;
+---
+
+<section {...storyblokEditable(blok)} class="border-t border-line/70 py-section">
+  <Container>
+    <SectionHeading eyebrow={blok.eyebrow ?? 'What I do'} title={blok.heading} description={blok.introduction} />
+    <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-grid">
+      {blok.groups?.map((group) => <StoryblokComponent blok={group} />)}
+    </div>
+  </Container>
+</section>

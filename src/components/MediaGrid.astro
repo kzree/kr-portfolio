@@ -2,14 +2,16 @@
 import type { MediaItem } from '../lib/content';
 
 interface Props {
-  items: MediaItem[];
+  items?: MediaItem[];
 }
 
-const { items } = Astro.props;
+const { items = [] } = Astro.props;
+const hasChildren = Astro.slots.has('default');
 ---
 
-{items.length > 0 && (
+{(items.length > 0 || hasChildren) && (
   <div class="grid grid-cols-2 gap-grid md:grid-cols-4">
+    <slot />
     {items.map((item) => (
       <figure class:list={['min-w-0', item.wide && 'col-span-2']}>
         <div class="aspect-[0.9] overflow-hidden rounded-card bg-surface-soft sm:aspect-[1.1]">
