@@ -1,0 +1,29 @@
+---
+interface Props {
+  year?: string;
+  role?: string;
+  client?: string;
+  categories?: string[];
+}
+
+const { year, role, client, categories = [] } = Astro.props;
+const rows = [
+  { label: 'Year', value: year },
+  { label: 'Role', value: role },
+  { label: 'Client', value: client },
+].filter((row) => row.value);
+---
+
+<div>
+  {categories.length > 0 && <p class="mb-4 text-small text-ink-soft">{categories.join(' · ')}</p>}
+  {rows.length > 0 && (
+    <dl class="grid gap-2 border-l border-line pl-5 text-small sm:min-w-64">
+      {rows.map((row) => (
+        <div class="grid grid-cols-[4.5rem_1fr] gap-3">
+          <dt class="text-ink-faint">{row.label}</dt>
+          <dd class="font-medium text-ink">{row.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )}
+</div>

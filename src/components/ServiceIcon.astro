@@ -1,0 +1,22 @@
+---
+import { CalendarDays, Eye, Laptop, PenLine, Sun } from '@lucide/astro';
+import type { ServiceIconName } from '../lib/content';
+
+interface Props {
+  name: ServiceIconName;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 28, class: className } = Astro.props;
+const icons = {
+  words: PenLine,
+  visuals: Eye,
+  digital: Laptop,
+  experiences: CalendarDays,
+  strategy: Sun,
+};
+const Icon = icons[name];
+---
+
+<Icon size={size} stroke-width={1.7} class={className} aria-hidden="true" />

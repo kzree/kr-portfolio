@@ -1,0 +1,53 @@
+---
+interface Props {
+  categories: string[];
+  targetId: string;
+  allLabel?: string;
+}
+
+const { categories, targetId, allLabel = 'All' } = Astro.props;
+const uniqueCategories = [...new Set(categories)].filter(Boolean);
+---
+
+<div data-project-filter data-filter-target={targetId} class="space-y-2">
+  <div role="group" aria-label="Filter projects by category" class="flex flex-wrap gap-2">
+    <button type="button" data-filter-value="all" aria-pressed="true" aria-controls={targetId} class="min-h-9 rounded-pill border border-line bg-ink px-4 text-small text-on-dark transition-colors hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong aria-[pressed=false]:bg-surface-soft aria-[pressed=false]:text-ink">
+      {allLabel}
+    </button>
+    {uniqueCategories.map((category) => (
+      <button type="button" data-filter-value={category} aria-pressed="false" aria-controls={targetId} class="min-h-9 rounded-pill border border-line bg-surface-soft px-4 text-small text-ink transition-colors hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong aria-[pressed=true]:bg-ink aria-[pressed=true]:text-on-dark">
+        {category}
+      </button>
+    ))}
+  </div>
+  <p data-filter-status class="sr-only" role="status" aria-live="polite"></p>
+</div>
+
+<script>
+  for (const filter of document.querySelectorAll<HTMLElement>('[data-project-filter]')) {
+    const targetId = filter.dataset.filterTarget;
+    const grid = targetId ? document.getElementById(targetId) : null;
+    if (!grid) continue;
+
+    const buttons = [...filter.querySelectorAll<HTMLButtonElement>('[data-filter-value]')];
+    const cards = [...grid.querySelectorAll<HTMLElement>('[data-project-card]')];
+    const status = filter.querySelector<HTMLElement>('[data-filter-status]');
+
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        const selected = button.dataset.filterValue;
+        let visibleCount = 0;
+
+        for (const card of cards) {
+          const categories: string[] = JSON.parse(card.dataset.categories ?? '[]');
+          const visible = selected === 'all' || (selected !== undefined && categories.includes(selected));
+          card.hidden = !visible;
+          if (visible) visibleCount += 1;
+        }
+
+        for (const item of buttons) item.setAttribute('aria-pressed', String(item === button));
+        if (status) status.textContent = `${visibleCount} ${visibleCount === 1 ? 'project' : 'projects'} shown`;
+      });
+    }
+  }
+</script>

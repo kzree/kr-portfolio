@@ -1,0 +1,29 @@
+---
+import type { MediaItem } from '../lib/content';
+
+interface Props {
+  items: MediaItem[];
+}
+
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="grid grid-cols-2 gap-grid md:grid-cols-4">
+    {items.map((item) => (
+      <figure class:list={['min-w-0', item.wide && 'col-span-2']}>
+        <div class="aspect-[0.9] overflow-hidden rounded-card bg-surface-soft sm:aspect-[1.1]">
+          {item.type === 'image' ? (
+            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+          ) : (
+            <video src={item.src} poster={item.poster} controls playsinline preload="none" aria-label={item.caption ?? 'Project video'} class="h-full w-full object-cover">
+              {item.captionsSrc && <track kind="captions" src={item.captionsSrc} srclang="en" label="English" default />}
+              Your browser does not support video playback.
+            </video>
+          )}
+        </div>
+        {item.caption && <figcaption class="mt-2 text-small text-ink-soft">{item.caption}</figcaption>}
+      </figure>
+    ))}
+  </div>
+)}

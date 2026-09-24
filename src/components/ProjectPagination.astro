@@ -1,0 +1,31 @@
+---
+import type { ProjectLink } from '../lib/content';
+
+interface Props {
+  previous?: ProjectLink;
+  next?: ProjectLink;
+  allHref?: string;
+  position?: 'top' | 'bottom';
+}
+
+const { previous, next, allHref = '/work', position = 'bottom' } = Astro.props;
+const linkClass = 'text-small text-ink-soft transition-colors hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong';
+---
+
+<nav aria-label="Project navigation" class:list={['grid items-center gap-4 text-small', position === 'bottom' ? 'grid-cols-3 border-t border-line py-7' : 'grid-cols-[1fr_auto] py-6']}>
+  {position === 'top' ? (
+    <>
+      <a href={allHref} class={linkClass}><span aria-hidden="true">←</span> All work</a>
+      <div class="flex items-center gap-5">
+        {previous && <a href={previous.href} rel="prev" class={linkClass}>Previous <span class="sr-only">project: {previous.title}</span></a>}
+        {next && <a href={next.href} rel="next" class={linkClass}>Next <span aria-hidden="true">→</span><span class="sr-only"> project: {next.title}</span></a>}
+      </div>
+    </>
+  ) : (
+    <>
+      <div>{previous && <a href={previous.href} rel="prev" class={linkClass}><span aria-hidden="true">←</span> Previous<span class="sr-only"> project: {previous.title}</span></a>}</div>
+      <a href={allHref} class:list={[linkClass, 'text-center']}>All work</a>
+      <div class="text-right">{next && <a href={next.href} rel="next" class={linkClass}>Next <span class="sr-only">project: {next.title}</span><span aria-hidden="true">→</span></a>}</div>
+    </>
+  )}
+</nav>

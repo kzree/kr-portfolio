@@ -1,12 +1,15 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import Button from '../components/Button.astro';
+import Container from '../components/Container.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 ---
 
 <SiteLayout
   title="Kristel — Marketing Specialist"
   description="Marketing, copywriting, design and experiences from idea to final execution."
 >
-  <section class="mx-auto flex min-h-[min(42rem,75vh)] max-w-[var(--layout-max)] items-center px-gutter py-section">
+  <Container as="section" class="flex min-h-[min(42rem,75vh)] items-center py-section">
     <div class="max-w-[50rem]">
       <p class="mb-5 text-eyebrow font-semibold tracking-eyebrow text-ink-soft uppercase">Marketing specialist</p>
       <h1 class="max-w-[16ch] font-display text-hero font-bold tracking-display text-ink uppercase">
@@ -15,20 +18,19 @@ import SiteLayout from '../layouts/SiteLayout.astro';
       <p class="mt-7 max-w-[33rem] text-lead text-ink-soft">
         Marketing, copywriting, design, social media and events — from the first idea to the final execution.
       </p>
+      <div class="mt-8"><Button href="/work">View my work <span aria-hidden="true">↓</span></Button></div>
     </div>
+  </Container>
+
+  <section id="about" class="border-t border-line/70 py-section scroll-mt-8">
+    <Container>
+      <SectionHeading eyebrow="About me" title="A marketing specialist with a soft spot for good ideas." class="max-w-[40rem]" />
+    </Container>
   </section>
 
-  <section id="about" class="border-t border-line/70 px-gutter py-section scroll-mt-8">
-    <div class="mx-auto max-w-[var(--layout-max)]">
-      <p class="mb-4 text-eyebrow font-semibold tracking-eyebrow text-ink-soft uppercase">About me</p>
-      <h2 class="max-w-[20ch] font-display text-section font-bold tracking-heading">A marketing specialist with a soft spot for good ideas.</h2>
-    </div>
-  </section>
-
-  <section id="contact" class="border-t border-line/70 px-gutter py-section scroll-mt-8">
-    <div class="mx-auto max-w-[var(--layout-max)]">
-      <p class="mb-4 text-eyebrow font-semibold tracking-eyebrow text-ink-soft uppercase">Contact</p>
-      <h2 class="font-display text-section font-bold tracking-heading">Have an idea? Let’s talk.</h2>
-    </div>
+  <section id="contact" class="border-t border-line/70 py-section scroll-mt-8">
+    <Container>
+      <SectionHeading eyebrow="Contact" title="Have an idea? Let’s talk." />
+    </Container>
   </section>
 </SiteLayout>

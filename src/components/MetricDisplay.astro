@@ -1,0 +1,23 @@
+---
+import { Heart, MousePointer2, Target, UsersRound } from '@lucide/astro';
+import type { ResultMetricData } from '../lib/content';
+
+interface Props {
+  metric: ResultMetricData;
+}
+
+const { metric } = Astro.props;
+const icons = {
+  people: UsersRound,
+  heart: Heart,
+  clicks: MousePointer2,
+  target: Target,
+};
+const Icon = icons[metric.icon];
+---
+
+<div class="min-w-0">
+  <Icon size={26} stroke-width={1.6} class="mb-4 text-ink" aria-hidden="true" />
+  <p class="font-display text-[clamp(1.5rem,2.5vw,2.25rem)] font-bold tracking-heading text-ink">{metric.value}</p>
+  <p class="mt-1 text-small text-ink-soft">{metric.label}</p>
+</div>
