@@ -2,6 +2,7 @@
 import { storyblokEditable } from '@storyblok/astro';
 import Button from '../components/Button.astro';
 import Container from '../components/Container.astro';
+import OptimizedImage from '../components/OptimizedImage.astro';
 import { assetUrl, linkUrl } from './mappers';
 import type { Block, HeroFields } from './types';
 
@@ -22,11 +23,10 @@ const ctaHref = linkUrl(blok.cta_link);
       {blok.introduction && <p class="mt-7 max-w-[35rem] text-lead text-ink-soft">{blok.introduction}</p>}
       {ctaHref && blok.cta_label && <div class="mt-8"><Button href={ctaHref}>{blok.cta_label} <span aria-hidden="true">↗</span></Button></div>}
     </div>
-    <div class="relative mx-auto w-full max-w-[32rem]">
+    <div class="mx-auto w-full max-w-[32rem]">
       <div class="aspect-[0.88] overflow-hidden rounded-card bg-surface-soft">
-        {portrait && <img src={portrait} alt={blok.portrait?.alt || 'Portrait of Kristel'} class="h-full w-full object-cover" fetchpriority="high" />}
+        {portrait && <OptimizedImage src={portrait} alt={blok.portrait?.alt || 'Portrait of Kristel'} width={900} height={1024} class="h-full w-full object-cover" priority />}
       </div>
-      {blok.handwritten_note && <p class="absolute right-5 bottom-5 max-w-[10rem] -rotate-[8deg] font-display text-[clamp(1.3rem,2.4vw,2.2rem)] leading-tight italic text-on-dark [text-shadow:0_2px_12px_rgb(0_0_0/.7)]">{blok.handwritten_note}</p>}
     </div>
   </Container>
 </section>

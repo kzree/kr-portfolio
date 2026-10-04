@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import editorial from '../assets/mock/editorial.png';
+import event from '../assets/mock/event.png';
+import festivalPrint from '../assets/mock/festival-print.png';
+import portrait from '../assets/mock/portrait.png';
+import tote from '../assets/mock/tote.png';
+
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+  priority?: boolean;
+}
+
+const { src, alt, width, height, class: className, priority = false } = Astro.props;
+
+// Mock Storyblok asset URLs resolve to imported images so Astro can process them.
+const mockImages: Record<string, ImageMetadata> = {
+  '/mock/editorial.png': editorial,
+  '/mock/event.png': event,
+  '/mock/festival-print.png': festivalPrint,
+  '/mock/portrait.png': portrait,
+  '/mock/tote.png': tote,
+};
+const imageSource = mockImages[src] ?? src;
+---
+
+<Image
+  src={imageSource}
+  alt={alt}
+  width={width}
+  height={height}
+  format="webp"
+  quality={80}
+  priority={priority}
+  class={className}
+/>

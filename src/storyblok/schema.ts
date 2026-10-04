@@ -51,7 +51,6 @@ export const heroBlock = defineBlock({
     defineField('headline', { type: 'text', required: true }),
     defineField('introduction', { type: 'textarea' }),
     imageField('portrait'),
-    defineField('handwritten_note', { type: 'textarea' }),
     defineField('cta_label', { type: 'text' }),
     defineField('cta_link', { type: 'multilink' }),
   ],

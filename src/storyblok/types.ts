@@ -31,7 +31,6 @@ export interface HeroFields {
   headline: string;
   introduction?: string;
   portrait?: Asset;
-  handwritten_note?: string;
   cta_label?: string;
   cta_link?: Link;
 }

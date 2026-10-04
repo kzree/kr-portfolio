@@ -8,9 +8,14 @@ const storyblokToken = process.env.STORYBLOK_DELIVERY_API_TOKEN || loadEnv(proce
 
 // https://astro.build/config
 export default defineConfig({
-	integrations: storyblokToken ? [
+	image: {
+		domains: ['a.storyblok.com'],
+	},
+	integrations: [
 		storyblok({
-			accessToken: storyblokToken,
+			accessToken: storyblokToken ?? '',
+			useCustomApi: !storyblokToken,
+			bridge: !!storyblokToken,
 			components: {
 				home: 'storyblok/Home',
 				hero: 'storyblok/Hero',
@@ -28,7 +33,7 @@ export default defineConfig({
 				site_settings: 'storyblok/SiteSettings',
 			},
 		}),
-	] : [],
+	],
 	vite: {
 		plugins: [tailwindcss()],
 	},

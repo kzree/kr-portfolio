@@ -3,6 +3,7 @@ import { renderRichText, storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import Container from '../components/Container.astro';
 import MediaGrid from '../components/MediaGrid.astro';
+import OptimizedImage from '../components/OptimizedImage.astro';
 import ProjectMeta from '../components/ProjectMeta.astro';
 import ProjectPagination from '../components/ProjectPagination.astro';
 import type { ProjectLink } from '../lib/content';
@@ -32,7 +33,7 @@ const responsibilitiesHtml = blok.responsibilities ? renderRichText(blok.respons
       </div>
       <ProjectMeta year={blok.year} role={blok.role} client={blok.client} categories={blok.categories} />
     </div>
-    {heroImage && <div class="my-8 aspect-[1.9] overflow-hidden rounded-card bg-surface-soft"><img src={heroImage} alt={blok.hero_image?.alt || blok.title} class="h-full w-full object-cover" fetchpriority="high" /></div>}
+    {heroImage && <div class="my-8 aspect-[1.9] overflow-hidden rounded-card bg-surface-soft"><OptimizedImage src={heroImage} alt={blok.hero_image?.alt || blok.title} width={1440} height={760} class="h-full w-full object-cover" priority /></div>}
 
     {(aboutHtml || goalHtml) && (
       <div class="grid gap-8 border-b border-line py-10 md:grid-cols-2">

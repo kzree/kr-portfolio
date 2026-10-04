@@ -3,6 +3,7 @@ import { renderRichText, storyblokEditable } from '@storyblok/astro';
 import { MapPin, GraduationCap, BriefcaseBusiness } from '@lucide/astro';
 import Button from '../components/Button.astro';
 import Container from '../components/Container.astro';
+import OptimizedImage from '../components/OptimizedImage.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { assetUrl } from './mappers';
 import type { AboutFields, Block } from './types';
@@ -25,7 +26,7 @@ const biography = blok.biography ? renderRichText(blok.biography as Parameters<t
       {cvUrl && <div class="mt-7"><Button href={cvUrl} variant="accent" download>{blok.cv_label || 'Download CV'} <span aria-hidden="true">↓</span></Button></div>}
     </div>
     <div class="aspect-[0.8] overflow-hidden rounded-card bg-surface-soft">
-      {portrait && <img src={portrait} alt={blok.portrait?.alt || 'Portrait of Kristel'} loading="lazy" decoding="async" class="h-full w-full object-cover" />}
+      {portrait && <OptimizedImage src={portrait} alt={blok.portrait?.alt || 'Portrait of Kristel'} width={600} height={750} class="h-full w-full object-cover" />}
     </div>
     <dl class="space-y-5 text-small text-ink-soft">
       {blok.location && <div class="flex gap-3"><MapPin size={18} stroke-width={1.6} class="shrink-0 text-ink" aria-hidden="true" /><div><dt class="sr-only">Location</dt><dd>{blok.location}</dd></div></div>}

@@ -15,7 +15,7 @@ const { blok } = Astro.props;
 <section {...storyblokEditable(blok)} class="border-t border-line/70 py-section">
   <Container>
     <SectionHeading eyebrow={blok.eyebrow ?? 'What I do'} title={blok.heading} description={blok.introduction} />
-    <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-grid">
+    <div class="mt-8 grid grid-cols-2 gap-x-4 lg:mt-10 lg:grid-cols-5 lg:gap-grid">
       {blok.groups?.map((group) => <StoryblokComponent blok={group} />)}
     </div>
   </Container>

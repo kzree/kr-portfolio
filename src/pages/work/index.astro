@@ -1,26 +1,14 @@
 ---
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import Container from '../../components/Container.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
-import CategoryFilter from '../../components/CategoryFilter.astro';
-import ProjectGrid from '../../components/ProjectGrid.astro';
-import { projectCategories, sampleProjects } from '../../data/sample-projects';
+import { mockProjectSummaries, mockSiteSettings, mockWorkIndex } from '../../data/mock-storyblok';
+import { toSiteSettings } from '../../storyblok/mappers';
 ---
 
 <SiteLayout
-  title="All work — Kristel"
-  description="A collection of campaigns, content, design, events, and other projects."
+  title={mockWorkIndex.seo_title || 'All work — Kristel'}
+  description={mockWorkIndex.seo_description || 'Selected campaign, content, design and event projects.'}
+  site={toSiteSettings(mockSiteSettings)}
 >
-  <Container as="section" class="py-section">
-    <div class="grid gap-8 md:grid-cols-[1fr_minmax(15rem,0.7fr)] md:items-end">
-      <SectionHeading as="h1" eyebrow="Portfolio" title="All work." />
-      <p class="max-w-[29rem] text-body text-ink-soft">A collection of campaigns, content, design, events and other projects I've worked on. Each project shows a different part of what I do and what I enjoy.</p>
-    </div>
-    <div class="mt-12">
-      <CategoryFilter categories={projectCategories} targetId="work-grid" />
-    </div>
-    <div class="mt-7">
-      <ProjectGrid id="work-grid" projects={sampleProjects} />
-    </div>
-  </Container>
+  <StoryblokComponent blok={mockWorkIndex} projects={mockProjectSummaries} />
 </SiteLayout>

@@ -1,43 +1,35 @@
 ---
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import Container from '../../components/Container.astro';
-import ProjectMeta from '../../components/ProjectMeta.astro';
-import ProjectPagination from '../../components/ProjectPagination.astro';
-import { sampleProjects } from '../../data/sample-projects';
-import type { ProjectSummary } from '../../lib/content';
+import { mockProjectStories, mockSiteSettings, type MockProjectStory } from '../../data/mock-storyblok';
+import { toSiteSettings } from '../../storyblok/mappers';
 
 export function getStaticPaths() {
-  return sampleProjects.map((project, index) => ({
+  return mockProjectStories.map((project, index) => ({
     params: { slug: project.slug },
     props: {
       project,
-      previous: index > 0 ? sampleProjects[index - 1] : undefined,
-      next: index < sampleProjects.length - 1 ? sampleProjects[index + 1] : undefined,
+      previous: mockProjectStories[index - 1],
+      next: mockProjectStories[index + 1],
     },
   }));
 }
 
 interface Props {
-  project: ProjectSummary;
-  previous?: ProjectSummary;
-  next?: ProjectSummary;
+  project: MockProjectStory;
+  previous?: MockProjectStory;
+  next?: MockProjectStory;
 }
 
 const { project, previous, next } = Astro.props;
-const previousLink = previous ? { title: previous.title, href: `/work/${previous.slug}` } : undefined;
-const nextLink = next ? { title: next.title, href: `/work/${next.slug}` } : undefined;
+const previousLink = previous ? { title: previous.content.title, href: `/work/${previous.slug}` } : undefined;
+const nextLink = next ? { title: next.content.title, href: `/work/${next.slug}` } : undefined;
 ---
 
-<SiteLayout title={`${project.title} — Kristel`} description={`${project.title}: ${project.categories.join(', ')} project.`}>
-  <Container>
-    <ProjectPagination position="top" previous={previousLink} next={nextLink} />
-    <div class="grid gap-8 border-b border-line py-10 md:grid-cols-[1fr_auto] md:items-end">
-      <h1 class="font-display text-section font-bold tracking-heading">{project.title}</h1>
-      <ProjectMeta categories={project.categories} year={project.slug === 'eelnadal-2026' ? '2026' : undefined} />
-    </div>
-    <div class="my-8 flex aspect-[1.9] items-end rounded-card bg-[linear-gradient(135deg,#293c36,#856783_55%,#c69e98)] p-6 text-on-dark md:p-10">
-      <p class="font-display text-section font-bold tracking-heading">{project.title}</p>
-    </div>
-    <ProjectPagination previous={previousLink} next={nextLink} />
-  </Container>
+<SiteLayout
+  title={`${project.content.title} — Kristel`}
+  description={project.content.summary || `${project.content.title} project.`}
+  site={toSiteSettings(mockSiteSettings)}
+>
+  <StoryblokComponent blok={project.content} previous={previousLink} next={nextLink} />
 </SiteLayout>

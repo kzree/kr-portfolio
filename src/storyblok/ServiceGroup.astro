@@ -11,8 +11,8 @@ const { blok } = Astro.props;
 const skills = (blok.skills ?? '').split('\n').map((skill) => skill.trim()).filter(Boolean);
 ---
 
-<div {...storyblokEditable(blok)} class="border-l border-line pl-4 first:border-l-0 first:pl-0 lg:min-h-48">
-  <ServiceIcon name={blok.icon} class="mb-5 text-ink" />
+<div {...storyblokEditable(blok)} class="col-span-1 border-t border-line py-5 last:odd:col-span-2 lg:min-h-48 lg:border-t-0 lg:border-l lg:py-0 lg:pl-4 lg:last:odd:col-span-1 lg:first:border-l-0 lg:first:pl-0">
+  <ServiceIcon name={blok.icon} class="mb-4 text-ink lg:mb-5" />
   <h3 class="text-eyebrow font-bold tracking-eyebrow text-ink uppercase">{blok.title}</h3>
   {skills.length > 0 && <ul class="mt-3 space-y-0.5 text-small text-ink-soft">{skills.map((skill) => <li>{skill}</li>)}</ul>}
 </div>

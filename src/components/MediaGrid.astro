@@ -1,5 +1,6 @@
 ---
 import type { MediaItem } from '../lib/content';
+import OptimizedImage from './OptimizedImage.astro';
 
 interface Props {
   items?: MediaItem[];
@@ -16,7 +17,7 @@ const hasChildren = Astro.slots.has('default');
       <figure class:list={['min-w-0', item.wide && 'col-span-2']}>
         <div class="aspect-[0.9] overflow-hidden rounded-card bg-surface-soft sm:aspect-[1.1]">
           {item.type === 'image' ? (
-            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+            <OptimizedImage src={item.src} alt={item.alt} width={700} height={770} class="h-full w-full object-cover" />
           ) : (
             <video src={item.src} poster={item.poster} controls playsinline preload="none" aria-label={item.caption ?? 'Project video'} class="h-full w-full object-cover">
               {item.captionsSrc && <track kind="captions" src={item.captionsSrc} srclang="en" label="English" default />}

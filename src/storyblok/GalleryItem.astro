@@ -1,5 +1,6 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
+import OptimizedImage from '../components/OptimizedImage.astro';
 import { assetUrl } from './mappers';
 import type { Block, GalleryItemFields } from './types';
 
@@ -21,9 +22,9 @@ const captions = assetUrl(blok.captions_file);
         {captions && <track kind="captions" src={captions} srclang="en" label="English" default />}
         Your browser does not support video playback.
       </video>
-    ) : (
-      <img src={image} alt={blok.image?.alt || blok.caption || 'Project visual'} loading="lazy" decoding="async" class="h-full w-full object-cover" />
-    )}
+    ) : image ? (
+      <OptimizedImage src={image} alt={blok.image?.alt || blok.caption || 'Project visual'} width={700} height={770} class="h-full w-full object-cover" />
+    ) : null}
   </div>}
   {blok.caption && <figcaption class="mt-2 text-small text-ink-soft">{blok.caption}</figcaption>}
 </figure>
