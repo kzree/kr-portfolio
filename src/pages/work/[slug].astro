@@ -1,35 +1,39 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import { mockProjectStories, mockSiteSettings, type MockProjectStory } from '../../data/mock-storyblok';
-import { toSiteSettings } from '../../storyblok/mappers';
+import { getProjects, getSiteSettings, type PortfolioStory } from '../../storyblok/api';
+import { assetUrl } from '../../storyblok/mappers';
+import type { ProjectFields } from '../../storyblok/types';
 
-export function getStaticPaths() {
-  return mockProjectStories.map((project, index) => ({
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, index) => ({
     params: { slug: project.slug },
     props: {
       project,
-      previous: mockProjectStories[index - 1],
-      next: mockProjectStories[index + 1],
+      previous: projects[index - 1],
+      next: projects[index + 1],
     },
   }));
 }
 
 interface Props {
-  project: MockProjectStory;
-  previous?: MockProjectStory;
-  next?: MockProjectStory;
+  project: PortfolioStory<ProjectFields>;
+  previous?: PortfolioStory<ProjectFields>;
+  next?: PortfolioStory<ProjectFields>;
 }
 
 const { project, previous, next } = Astro.props;
+const site = await getSiteSettings();
 const previousLink = previous ? { title: previous.content.title, href: `/work/${previous.slug}` } : undefined;
 const nextLink = next ? { title: next.content.title, href: `/work/${next.slug}` } : undefined;
 ---
 
 <SiteLayout
-  title={`${project.content.title} — Kristel`}
-  description={project.content.summary || `${project.content.title} project.`}
-  site={toSiteSettings(mockSiteSettings)}
+  title={project.content.seo_title || `${project.content.title} — Kristel`}
+  description={project.content.seo_description || project.content.summary || `${project.content.title} project.`}
+  socialImage={assetUrl(project.content.social_image)}
+  site={site}
 >
   <StoryblokComponent blok={project.content} previous={previousLink} next={nextLink} />
 </SiteLayout>

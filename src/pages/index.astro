@@ -1,14 +1,22 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import { mockHome, mockSiteSettings } from '../data/mock-storyblok';
-import { toSiteSettings } from '../storyblok/mappers';
+import { getSiteSettings, getStory } from '../storyblok/api';
+import { assetUrl } from '../storyblok/mappers';
+import type { HomeFields } from '../storyblok/types';
+
+const [story, site] = await Promise.all([
+  getStory<HomeFields>('home', 'home', { resolve_relations: ['featured_work.projects', 'featured_writing.entries'] }),
+  getSiteSettings(),
+]);
+const home = story.content;
 ---
 
 <SiteLayout
-  title={mockHome.seo_title || 'Kristel — Marketing Specialist'}
-  description={mockHome.seo_description || 'Ideas into content, campaigns and experiences.'}
-  site={toSiteSettings(mockSiteSettings)}
+  title={home.seo_title || 'Kristel — Marketing Specialist'}
+  description={home.seo_description || 'Ideas into content, campaigns and experiences.'}
+  socialImage={assetUrl(home.social_image)}
+  site={site}
 >
-  <StoryblokComponent blok={mockHome} />
+  <StoryblokComponent blok={home} />
 </SiteLayout>

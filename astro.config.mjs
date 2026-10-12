@@ -16,6 +16,7 @@ export default defineConfig({
 			accessToken: storyblokToken ?? '',
 			useCustomApi: !storyblokToken,
 			bridge: !!storyblokToken,
+			apiOptions: { region: 'eu' },
 			components: {
 				home: 'storyblok/Home',
 				hero: 'storyblok/Hero',

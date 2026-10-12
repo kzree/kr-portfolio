@@ -1,14 +1,23 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import { mockProjectSummaries, mockSiteSettings, mockWorkIndex } from '../../data/mock-storyblok';
-import { toSiteSettings } from '../../storyblok/mappers';
+import { getProjects, getSiteSettings, getStory } from '../../storyblok/api';
+import { assetUrl, toProjectSummary } from '../../storyblok/mappers';
+import type { WorkIndexFields } from '../../storyblok/types';
+
+const [story, projects, site] = await Promise.all([
+  getStory<WorkIndexFields>('work/', 'work_index'),
+  getProjects(),
+  getSiteSettings(),
+]);
+const workIndex = story.content;
 ---
 
 <SiteLayout
-  title={mockWorkIndex.seo_title || 'All work — Kristel'}
-  description={mockWorkIndex.seo_description || 'Selected campaign, content, design and event projects.'}
-  site={toSiteSettings(mockSiteSettings)}
+  title={workIndex.seo_title || 'All work — Kristel'}
+  description={workIndex.seo_description || 'Selected campaign, content, design and event projects.'}
+  socialImage={assetUrl(workIndex.social_image)}
+  site={site}
 >
-  <StoryblokComponent blok={mockWorkIndex} projects={mockProjectSummaries} />
+  <StoryblokComponent blok={workIndex} projects={projects.map(toProjectSummary)} />
 </SiteLayout>

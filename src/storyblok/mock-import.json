@@ -1,0 +1,110 @@
+{
+  "space_id": 295448473034471,
+  "region": "eu",
+  "imported_at": "2026-10-04",
+  "state": "draft",
+  "asset_folder": {
+    "id": 227084071277689,
+    "name": "Mock portfolio"
+  },
+  "assets": {
+    "/mock/portrait.png": {
+      "id": 227084132209587,
+      "filename": "https://a.storyblok.com/f/295448473034471/0ef1d68d98/portrait.png"
+    },
+    "/mock/event.png": {
+      "id": 227084358153141,
+      "filename": "https://a.storyblok.com/f/295448473034471/4690f6a148/event.png"
+    },
+    "/mock/editorial.png": {
+      "id": 227084431950776,
+      "filename": "https://a.storyblok.com/f/295448473034471/8d71851a2f/editorial.png"
+    },
+    "/mock/festival-print.png": {
+      "id": 227084797789114,
+      "filename": "https://a.storyblok.com/f/295448473034471/6e2b2d8ccc/festival-print.png"
+    },
+    "/mock/tote.png": {
+      "id": 227084848657340,
+      "filename": "https://a.storyblok.com/f/295448473034471/ef67937089/tote.png"
+    }
+  },
+  "stories": {
+    "work": {
+      "id": 227085103903378,
+      "uuid": "9736f630-b4d1-4257-95f0-4599a43cc6f4",
+      "full_slug": "work"
+    },
+    "writing": {
+      "id": 227085104525971,
+      "uuid": "ec612e6f-cbac-4e5a-9c67-eeba7482645e",
+      "full_slug": "writing"
+    },
+    "index": {
+      "id": 227085223727764,
+      "uuid": "b51c0f3c-f12d-4772-bdd7-f971319dbd4c",
+      "full_slug": "work/"
+    },
+    "site-settings": {
+      "id": 227085224374933,
+      "uuid": "5d2f441c-164a-4885-bc50-ce1f32a9c697",
+      "full_slug": "site-settings"
+    },
+    "eelnadal-2026": {
+      "id": 227085225083542,
+      "uuid": "fd3b3f76-6eb9-483a-a404-4395e3ce1748",
+      "full_slug": "work/eelnadal-2026"
+    },
+    "tudengifestival": {
+      "id": 227085235348119,
+      "uuid": "d4451dc3-7597-4416-a473-b38950d459c0",
+      "full_slug": "work/tudengifestival"
+    },
+    "social-media-development": {
+      "id": 227085236093592,
+      "uuid": "95a49ab3-7212-41a8-bcc2-b39331963c75",
+      "full_slug": "work/social-media-development"
+    },
+    "taltech-student-portal": {
+      "id": 227085236814489,
+      "uuid": "34a11c5c-8a54-4ca5-8318-d9e7e1075269",
+      "full_slug": "work/taltech-student-portal"
+    },
+    "artemis": {
+      "id": 227085237498522,
+      "uuid": "1d7c2be4-2878-4451-8e43-7f88f725544b",
+      "full_slug": "work/artemis"
+    },
+    "brand-identity": {
+      "id": 227085238157979,
+      "uuid": "52c87deb-6bd3-4199-978c-8fdd81995f81",
+      "full_slug": "work/brand-identity"
+    },
+    "more-than-a-headline": {
+      "id": 227085238805148,
+      "uuid": "3ae9b465-cca6-4cac-8b27-d7b6c9c0233a",
+      "full_slug": "writing/more-than-a-headline"
+    },
+    "ideas-that-connect": {
+      "id": 227085239489181,
+      "uuid": "b44c9e80-ac0f-467f-87e6-5e031911aa2b",
+      "full_slug": "writing/ideas-that-connect"
+    },
+    "make-it-clear": {
+      "id": 227085240185502,
+      "uuid": "b6d9f758-2fc5-4d59-8cbf-f9e5402d8845",
+      "full_slug": "writing/make-it-clear"
+    },
+    "home": {
+      "id": 223575941501238,
+      "uuid": "ec26dc6b-3944-444e-8731-934329b57865",
+      "full_slug": "home"
+    }
+  },
+  "verification": {
+    "content_stories": 12,
+    "assets": 5,
+    "all_content_matches": true,
+    "all_stories_unpublished": true
+  }
+}
