@@ -4,9 +4,9 @@ This folder contains the Storyblok-facing layer. `schema.ts` defines the content
 
 The technical block names use snake case, such as `featured_work`; `astro.config.mjs` registers each name with its Astro renderer. The `site_settings` story is global data: fetch it once and pass `toSiteSettings(story.content)` to `SiteLayout`.
 
-The page routes fetch content from the EU Storyblok Content Delivery API through `api.ts`. Home resolves its featured project and writing references, the Work index lists all project stories, and project routes are generated from those stories with previous/next navigation ordered by `display_order`. Site settings are shared across routes. `src/data/mock-storyblok.ts` is retained as the original sample content, but the routes no longer use it.
+The page routes fetch content from the EU Storyblok Content Delivery API through `api.ts`. Home resolves its featured project and writing references, the Work index lists all project stories, and project routes are generated from those stories with previous/next navigation ordered by `display_order`. Site settings are shared across routes.
 
-Mock image paths resolve to imported files in `src/assets/mock` through `OptimizedImage.astro`, so Astro generates optimized images. Storyblok-hosted images from `a.storyblok.com` use the same component and are authorized for remote optimization in `astro.config.mjs`.
+Images are rendered through `OptimizedImage.astro`. Storyblok-hosted images from `a.storyblok.com` are authorized for remote optimization in `astro.config.mjs`.
 
 All 14 components from `schema.ts` were created through the Storyblok MCP in the EU `kr-portfolio` space (`295448473034471`) on October 4, 2026. Their fields and nesting rules were fetched back and verified against the local schema. The starter components (`feature`, `grid`, `page`, and `teaser`) were preserved.
 
@@ -18,7 +18,7 @@ The public homepage is `/`. `/home` renders the same page as a preview alias, ma
 
 During `astro dev`, project routes render on demand and fetch current content and navigation, so new or changed project slugs do not require a server restart. Production builds still use `getStaticPaths()` to generate static project pages. `astro preview` serves that built snapshot and requires a rebuild for CMS changes.
 
-1. Add its delivery token to `.env` as `STORYBLOK_DELIVERY_API_TOKEN` (see `.env.example`). The Astro integration is registered for the mock preview too; the token enables API access and the visual-editor bridge.
+1. Add its delivery token to `.env` as `STORYBLOK_DELIVERY_API_TOKEN` (see `.env.example`). The token enables API access and the visual-editor bridge.
 2. The component schemas are already installed. Keep future schema changes synchronized with the local definitions.
 3. Use the existing draft stories recorded in `mock-import.json`. Replace the sample copy, links, contact details, and images as final content becomes available.
 4. `STORYBLOK_CONTENT_VERSION` defaults to `draft` for this preview. Set it to `published` for the live site once the stories are published. The token must grant access to the selected version.
