@@ -1,32 +1,49 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import { getProjects, getSiteSettings, type PortfolioStory } from '../../storyblok/api';
+import { getProjects, getSiteSettings, getStory } from '../../storyblok/api';
+import type { ProjectLink } from '../../lib/content';
 import { assetUrl } from '../../storyblok/mappers';
 import type { ProjectFields } from '../../storyblok/types';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
+  const linkFor = (project: (typeof projects)[number] | undefined): ProjectLink | undefined =>
+    project ? { title: project.content.title, href: `/work/${project.slug}` } : undefined;
   return projects.map((project, index) => ({
     params: { slug: project.slug },
     props: {
-      project,
-      previous: projects[index - 1],
-      next: projects[index + 1],
+      previous: linkFor(projects[index - 1]),
+      next: linkFor(projects[index + 1]),
     },
   }));
 }
 
 interface Props {
-  project: PortfolioStory<ProjectFields>;
-  previous?: PortfolioStory<ProjectFields>;
-  next?: PortfolioStory<ProjectFields>;
+  previous?: ProjectLink;
+  next?: ProjectLink;
 }
 
-const { project, previous, next } = Astro.props;
-const site = await getSiteSettings();
-const previousLink = previous ? { title: previous.content.title, href: `/work/${previous.slug}` } : undefined;
-const nextLink = next ? { title: next.content.title, href: `/work/${next.slug}` } : undefined;
+let { previous, next } = Astro.props;
+// getStaticPaths props are cached in development. Fetch content during rendering
+// so a visual-editor reload after saving picks up the latest Storyblok draft.
+const [project, site] = await Promise.all([
+  getStory<ProjectFields>(`work/${Astro.params.slug}`, 'project'),
+  getSiteSettings(),
+]);
+
+// Development routes render on demand, so getStaticPaths does not supply props.
+// Refresh navigation too, including newly added or renamed projects.
+if (import.meta.env.DEV) {
+  const projects = await getProjects();
+  const index = projects.findIndex((item) => item.uuid === project.uuid);
+  const linkFor = (item: (typeof projects)[number] | undefined): ProjectLink | undefined =>
+    item ? { title: item.content.title, href: `/work/${item.slug}` } : undefined;
+  if (index !== -1) {
+    previous = linkFor(projects[index - 1]);
+    next = linkFor(projects[index + 1]);
+  }
+}
 ---
 
 <SiteLayout
@@ -35,5 +52,5 @@ const nextLink = next ? { title: next.content.title, href: `/work/${next.slug}` 
   socialImage={assetUrl(project.content.social_image)}
   site={site}
 >
-  <StoryblokComponent blok={project.content} previous={previousLink} next={nextLink} />
+  <StoryblokComponent blok={project.content} previous={previous} next={next} />
 </SiteLayout>

@@ -16,6 +16,8 @@ Configuration and editing:
 
 The public homepage is `/`. `/home` renders the same page as a preview alias, matching the Home story's slug so the Storyblok visual editor can open it without a custom preview-path override.
 
+During `astro dev`, project routes render on demand and fetch current content and navigation, so new or changed project slugs do not require a server restart. Production builds still use `getStaticPaths()` to generate static project pages. `astro preview` serves that built snapshot and requires a rebuild for CMS changes.
+
 1. Add its delivery token to `.env` as `STORYBLOK_DELIVERY_API_TOKEN` (see `.env.example`). The Astro integration is registered for the mock preview too; the token enables API access and the visual-editor bridge.
 2. The component schemas are already installed. Keep future schema changes synchronized with the local definitions.
 3. Use the existing draft stories recorded in `mock-import.json`. Replace the sample copy, links, contact details, and images as final content becomes available.

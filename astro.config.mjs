@@ -6,12 +6,29 @@ import { loadEnv } from 'vite';
 
 const storyblokToken = process.env.STORYBLOK_DELIVERY_API_TOKEN || loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), 'STORYBLOK_').STORYBLOK_DELIVERY_API_TOKEN;
 
+/** @returns {import('astro').AstroIntegration} */
+function developmentProjectRoutes() {
+	let isDevelopment = false;
+	return {
+		name: 'development-project-routes',
+		hooks: {
+			'astro:config:setup': ({ command }) => { isDevelopment = command === 'dev'; },
+			'astro:route:setup': ({ route }) => {
+				if (isDevelopment && route.component.replaceAll('\\', '/').endsWith('/work/[slug].astro')) {
+					route.prerender = false;
+				}
+			},
+		},
+	};
+}
+
 // https://astro.build/config
 export default defineConfig({
 	image: {
 		domains: ['a.storyblok.com'],
 	},
 	integrations: [
+		developmentProjectRoutes(),
 		storyblok({
 			accessToken: storyblokToken ?? '',
 			useCustomApi: !storyblokToken,
